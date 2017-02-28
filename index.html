@@ -1,0 +1,74 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta content='zh_HK' property='og:locale' />
+<meta content='2017 HKDSE Countdown' property='og:title' />
+<meta content='website' property='og:type' />
+<meta content='2017 HKDSE Countdown' property='og:site_name' />
+<meta content='溫書啦x頭!' property='og:description' />
+
+<html>
+
+<head>
+    <title>2017 HKDSE Countdown</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="title"></div>
+    <div id="parent">
+        <div id="child">
+            <div id="wrapper">
+                <div id="dse_title">距離 <span class="english">2017 DSE</span> 尚餘</div>
+                <div id="clock">
+                    <span id="daysSpan" class="clockSpan">0</span><span class="word">日</span>
+                    <span id="hoursSpan" class="clockSpan">0</span><span class="word">時</span>
+                    <span id="minutesSpan" class="clockSpan">0</span><span class="word">分</span>
+                    <span id="secondsSpan" class="clockSpan">0</span><span class="word">秒</span>
+                </div>
+                <div id="description_text">以上資料以第一科主科開考時間為準</div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+    function getTimeRemain(deadline) {
+        var t = Date.parse(deadline) - Date.parse(new Date());
+        var seconds = Math.floor((t / 1000) % 60);
+        var minutes = Math.floor((t / 1000 / 60) % 60);
+        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        return {
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+    function initializeClock(clockid, daysSpanid, hoursSpanid, minutesSpanid, secondsSpanid, endtime) {
+        var clock = document.getElementById(clockid);
+        var daysSpan = document.getElementById(daysSpanid);
+        var hoursSpan = document.getElementById(hoursSpanid);
+        var minutesSpan = document.getElementById(minutesSpanid);
+        var secondsSpan = document.getElementById(secondsSpanid);
+
+        var timeinterval = setInterval(function() {
+            var t = getTimeRemain(endtime);
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = t.hours;
+            minutesSpan.innerHTML = t.minutes;
+            secondsSpan.innerHTML = t.seconds;
+            if (t.total <= 0) {
+                clearInterval(timeinterval);
+            }
+        }, 1000);
+
+    }
+
+    initializeClock('clock', 'daysSpan', 'hoursSpan', 'minutesSpan', 'secondsSpan', '2017-04-03T08:30:00+08:00');
+</script>
+
+</html>
