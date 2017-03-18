@@ -19,11 +19,15 @@
             <div id="wrapper">
                 <div id="dse_title">距離 <span class="english">2017 DSE</span> 尚餘</div>
                 <div id="clock">
-                    <span id="daysSpan" class="clockSpan">0</span><span class="word">日</span>
-                    <span id="hoursSpan" class="clockSpan">0</span><span class="word">時</span>
-                    <span id="minutesSpan" class="clockSpan">0</span><span class="word">分</span>
-                    <span id="secondsSpan" class="clockSpan">0</span><span class="word">秒</span>
+                    <div id="clock_detail">
+                        <span id="daysSpan" class="clockSpan">0</span><span class="word">日</span>
+                        <span id="hoursSpan" class="clockSpan">0</span><span class="word">時</span>
+                        <span id="minutesSpan" class="clockSpan">0</span><span class="word">分</span>
+                        <span id="secondsSpan" class="clockSpan">0</span><span class="word">秒</span>
+                    </div>
+                    <div id="dse_started">DSE開始左啦!</div>
                 </div>
+
                 <div id="description_text">以上資料以第一科主科開考時間為準</div>
             </div>
         </div>
@@ -36,6 +40,9 @@
 <script>
     function getTimeRemain(deadline) {
         var t = Date.parse(deadline) - Date.parse(new Date());
+        if (t < 0) {
+            return "started";
+        }
         var seconds = Math.floor((t / 1000) % 60);
         var minutes = Math.floor((t / 1000 / 60) % 60);
         var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
@@ -51,6 +58,9 @@
 
     function initializeClock(clockid, daysSpanid, hoursSpanid, minutesSpanid, secondsSpanid, endtime) {
         var clock = document.getElementById(clockid);
+        var clock_detail = document.getElementById("clock_detail");
+        var dse_started = document.getElementById("dse_started");
+        var dse_title = document.getElementById("dse_title");
         var daysSpan = document.getElementById(daysSpanid);
         var hoursSpan = document.getElementById(hoursSpanid);
         var minutesSpan = document.getElementById(minutesSpanid);
@@ -58,12 +68,19 @@
 
         var timeinterval = setInterval(function() {
             var t = getTimeRemain(endtime);
-            daysSpan.innerHTML = t.days;
-            hoursSpan.innerHTML = t.hours;
-            minutesSpan.innerHTML = t.minutes;
-            secondsSpan.innerHTML = t.seconds;
-            if (t.total <= 0) {
-                clearInterval(timeinterval);
+            if (t != "started") {
+                daysSpan.innerHTML = t.days;
+                hoursSpan.innerHTML = t.hours;
+                minutesSpan.innerHTML = t.minutes;
+                secondsSpan.innerHTML = t.seconds;
+                if (t.total <= 0) {
+                    clearInterval(timeinterval);
+                }
+            } else {
+                dse_title.style.display = 'none';
+                clock_detail.style.display = 'none';
+                dse_started.style.display = 'block';
+
             }
         }, 1000);
 
