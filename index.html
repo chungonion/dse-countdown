@@ -10,6 +10,7 @@
 <head>
     <title>2019 HKDSE Countdown</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
 </head>
 
 <body>
@@ -36,57 +37,5 @@
 
 
 </body>
-
-<script>
-    function getTimeRemain(deadline) {
-        var t = Date.parse(deadline) - Date.parse(new Date());
-        if (t < 0) {
-            return "started";
-        }
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
-
-    function initializeClock(clockid, daysSpanid, hoursSpanid, minutesSpanid, secondsSpanid, endtime) {
-        var clock = document.getElementById(clockid);
-        var clock_detail = document.getElementById("clock_detail");
-        var dse_started = document.getElementById("dse_started");
-        var dse_title = document.getElementById("dse_title");
-        var daysSpan = document.getElementById(daysSpanid);
-        var hoursSpan = document.getElementById(hoursSpanid);
-        var minutesSpan = document.getElementById(minutesSpanid);
-        var secondsSpan = document.getElementById(secondsSpanid);
-
-        var timeinterval = setInterval(function() {
-            var t = getTimeRemain(endtime);
-            if (t != "started") {
-                daysSpan.innerHTML = t.days;
-                hoursSpan.innerHTML = t.hours;
-                minutesSpan.innerHTML = t.minutes;
-                secondsSpan.innerHTML = t.seconds;
-                if (t.total <= 0) {
-                    clearInterval(timeinterval);
-                }
-            } else {
-                dse_title.style.display = 'none';
-                clock_detail.style.display = 'none';
-                dse_started.style.display = 'block';
-
-            }
-        }, 1000);
-
-    }
-
-    initializeClock('clock', 'daysSpan', 'hoursSpan', 'minutesSpan', 'secondsSpan', '2019-04-01T08:30:00+08:00');
-</script>
 
 </html>
